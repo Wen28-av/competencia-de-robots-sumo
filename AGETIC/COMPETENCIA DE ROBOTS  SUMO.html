@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema de Competencia - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- LOGIN -->
+  <div id="login-container" class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-200">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">¡Bienvenido, campeón!</h2>
+      <div class="mb-4">
+        <label for="username" class="block text-gray-700 text-sm font-medium mb-2">Usuario</label>
+        <input type="text" id="username" class="w-full px-4 py-2 border rounded-lg" />
+      </div>
+      <div class="mb-6">
+        <label for="password" class="block text-gray-700 text-sm font-medium mb-2">Contraseña</label>
+        <input type="password" id="password" class="w-full px-4 py-2 border rounded-lg" />
+      </div>
+      <p id="error-message" class="text-red-500 text-sm text-center mb-4 hidden"></p>
+      <button onclick="handleLogin()" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 mb-4">¡Entrarle!</button>
+    </div>
+  </div>
+
+  <!-- SISTEMA -->
+  <div id="system-container" class="hidden p-6 space-y-6">
+
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Sistema de Competencia de Robots SUMO</h1>
+
+    <!-- Configuración -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-semibold mb-4">Configuración de la Competencia</h2>
+      <label class="block mb-2">Número de Clasificados</label>
+      <input type="number" class="w-full border px-4 py-2 rounded mb-4" />
+      <label class="block mb-2">Número de Pistas</label>
+      <input type="number" class="w-full border px-4 py-2 rounded" />
+    </section>
+
+    <!-- Participantes -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-semibold mb-4">Gestión de Participantes</h2>
+      <button class="bg-green-600 text-white px-4 py-2 rounded mb-4">Agregar Participante</button>
+      <table class="w-full border text-sm">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="border px-2 py-1">Nombre de equipo</th>
+            <th class="border px-2 py-1">Departamento</th>
+            <th class="border px-2 py-1">Provincia</th>
+            <th class="border px-2 py-1">Municipio</th>
+            <th class="border px-2 py-1">CI</th>
+            <th class="border px-2 py-1">Nombre completo</th>
+            <th class="border px-2 py-1">Fecha de nacimiento</th>
+            <th class="border px-2 py-1">Rol</th>
+            <th class="border px-2 py-1">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí irán los participantes -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Control de Competencia -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-semibold mb-4">Control de Competencia</h2>
+      <div class="space-x-4 mb-4">
+        <button class="bg-blue-600 text-white px-4 py-2 rounded">Iniciar Competencia</button>
+        <button class="bg-red-600 text-white px-4 py-2 rounded">Detener Competencia</button>
+        <button class="bg-indigo-600 text-white px-4 py-2 rounded">Generar Rondas y Equipos</button>
+      </div>
+      <div class="space-x-4">
+        <button class="bg-green-600 text-white px-4 py-2 rounded">Iniciar Ronda</button>
+        <button class="bg-yellow-600 text-white px-4 py-2 rounded">Detener Ronda</button>
+      </div>
+    </section>
+
+    <!-- Puntajes -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-semibold mb-4">Puntajes y Clasificación</h2>
+      <p>Ingresar puntos (0 a 50) para equipos en la ronda en curso.</p>
+      <input type="number" min="0" max="50" class="border px-4 py-2 rounded my-2 w-full" />
+      <button class="bg-purple-600 text-white px-4 py-2 rounded">Guardar Puntaje</button>
+    </section>
+
+    <!-- Resultados Públicos -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-semibold mb-4">Resultados Públicos</h2>
+      <p>Consulta de resultados finales. No requiere autenticación.</p>
+      <button class="mt-2 bg-gray-700 text-white px-4 py-2 rounded">Ver Resultados</button>
+    </section>
+
+    <!-- Tabla de Rondas Generadas -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-semibold mb-4">Rondas y Equipos Generados</h2>
+      <table class="w-full border text-sm text-center">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="border px-2 py-1">Ronda</th>
+            <th class="border px-2 py-1">Equipo 1</th>
+            <th class="border px-2 py-1">Equipo 2</th>
+            <th class="border px-2 py-1">Pista</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border px-2 py-1">1</td>
+            <td class="border px-2 py-1">
+              Participante 1 (Tutor A),<br />
+              Participante 2 (Tutor B)
+            </td>
+            <td class="border px-2 py-1">
+              Participante 3 (Tutor C),<br />
+              Participante 4 (Tutor D)
+            </td>
+            <td class="border px-2 py-1">1</td>
+          </tr>
+          <tr>
+            <td class="border px-2 py-1">2</td>
+            <td class="border px-2 py-1">…</td>
+            <td class="border px-2 py-1">…</td>
+            <td class="border px-2 py-1">2</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Validaciones -->
+    <section class="bg-white p-6 rounded-xl shadow-md text-sm text-gray-700">
+      <h2 class="text-xl font-semibold mb-4">Validaciones del Sistema</h2>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>La competencia no puede iniciar si no se tienen al menos 4 participantes.</li>
+        <li>Nombre de participante único en la competencia.</li>
+        <li>No se puede editar/agregar/eliminar participantes una vez iniciada la competencia.</li>
+        <li>Un tutor puede tener varios participantes, pero no pueden coincidir en la misma ronda.</li>
+        <li>Ingreso de puntos de 0 a 50, manual, solo en ronda activa.</li>
+        <li>No se puede detener competencia con rondas pendientes.</li>
+        <li>Generación automática de rondas garantiza equidad y restricciones por tutor.</li>
+        <li>Reporte de rondas y equipos se genera automáticamente.</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const mockUsers = [
+      { username: 'sarina', password: '1234', name: 'Sarina' },
+      { username: 'wendy', password: '123', name: 'Wendy' }
+    ];
+
+    function handleLogin() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const errorMessage = document.getElementById('error-message');
+
+      const user = mockUsers.find(u => u.username === username && u.password === password);
+
+      if (!username || !password) {
+        errorMessage.textContent = '¡Ay, caray! Ambos campos son obligatorios.';
+        errorMessage.classList.remove('hidden');
+      } else if (user) {
+        errorMessage.classList.add('hidden');
+        document.getElementById('login-container').classList.add('hidden');
+        document.getElementById('system-container').classList.remove('hidden');
+        alert(`¡Bienvenido ${user.name}!`);
+      } else {
+        errorMessage.textContent = '¡Híjole! Usuario o contraseña incorrectos.';
+        errorMessage.classList.remove('hidden');
+      }
+    }
+  </script>
+
+</body>
+</html>
